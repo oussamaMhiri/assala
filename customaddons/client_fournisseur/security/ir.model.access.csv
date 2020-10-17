@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+client_manager,client,model_mh_client,,1,1,1,1
+supplier_manager,supplier,model_mh_supplier,,1,1,1,1
+notebook_supplier_manager,supplier,model_notebook_supplier,,1,1,1,1

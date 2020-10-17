@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record model="ir.ui.view" id="employee_mh_form_view">
+    <field name="name">employee_mh.form</field>
+    <field name="model">mh.hr_employee</field>
+    <field name="arch" type="xml">
+      <form string="Employée">
+        <sheet>
+          <label for="name" string='Nom et Prénom' class="oe_edit_only"/>
+          <h1>
+              <field name="name"/>
+          </h1>
+          <group string="Donées Rh">
+            <group>
+              <field name="phone"  string='Téléphone'/>
+              <field name="mail" string="Mail"/>
+              <field name="adress" string="Adresse"/>
+            </group>
+            <group>
+              <field name="cin" string="CIN"/>
+              <field name="cnss" string="CNSS"/>
+              <field name="birth" string="Date de naissance"/>
+            </group>
+          </group>
+          <group string="Salaire">
+            <group>
+            <field name="daily_cost" string="Coût de jour (TND)"/>
+            <field name="extra_hour_cost" string="Coût H.supp (TND)"/>
+            </group>
+            <group>
+            <field name="total_leave" string="Congés (Jour)"/>
+            <field name="work_bonus" string="Prime (TND)"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Salaire">
+              <field name="notebook_ids">
+                <tree editable="top" string="Salaire">
+                  <control>
+                    <create name="add_line_control" string="Ajouter une ligner"/>
+                  </control>
+                  <field name="start_month" string="Début" required="1"/>
+                  <field name="end_month" string="Fin"/>
+                  <field name="working_days" string="J. Travaillés (jour)"/>
+                  <field name="working_extra_hours" string="H. Supp (heure)"/>
+                  <field name="advance_salary" string="A.Salaire(TND)"/>
+                  <field name="advance_bonus" string="A.Prime(TND)"/>
+                  <field name="advance_day" string="A.Congés (jour)"/>
+                  <field name="rest" string="A rembourser (TND)"/>
+                </tree>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+
+  <record model="ir.ui.view" id="employee_mh_list_view">
+    <field name="name">employee_mh.list</field>
+    <field name="model">mh.hr_employee</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="phone" string="Téléphone"/>
+      </tree>
+    </field>
+  </record>
+
+  <record model="ir.actions.act_window" id="employee_list_action">
+    <field name="name">Employées</field>
+    <field name="res_model">mh.hr_employee</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Créer votre premier employé
+      </p>
+    </field>
+  </record>
+  <!-- top level menu: no parent -->
+  <menuitem id="main_hr_mh_menu" name="Ressources Humaines"/>
+
+  <menuitem id="employees_menu" name="Employés" parent="main_hr_mh_menu"
+            action="employee_list_action"/>
+
+</odoo>

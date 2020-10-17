@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="num_to_words_inherit_custom_report_invoice_document" inherit_id="account.report_invoice_document">
+        <tr class="border-black o_total" position="replace">
+            <tr t-if="o.type == 'out_invoice' and o.state == 'posted'" class="border-black o_total">
+                <td><strong>Total</strong></td>
+                <td class="text-right">
+                    <span class="text-nowrap" t-field="o.amount_total"/>
+                </td>
+            </tr>
+        </tr>
+        <xpath expr="//tr[@class='border-black o_subtotal']" position="after">
+            <tr t-if="o.type == 'out_invoice' and o.state == 'posted'" style="" class="border-black o_subtotal">
+                <td><strong>Fodec 1%</strong></td>
+                <td class="text-right">
+                    <span t-field="o.fodec"/>
+                </td>
+            </tr>
+            <tr t-if="o.type == 'out_invoice' and o.state == 'posted'" class="border-black o_subtotal" style="">
+                <td><strong>Montant TVA 19%</strong></td>
+                <td class="text-right">
+                    <span t-field="o.amount_tva"/>
+                </td>
+            </tr>
+            <tr t-if="o.type == 'out_invoice' and o.state == 'posted'" class="border-black o_subtotal" style="">
+                <td><strong>Timbre Fiscal</strong></td>
+                <td class="text-right">
+                    <span t-field="o.timbre_fiscal"/>
+                </td>
+            </tr>
+        </xpath>
+         <tr class="border-black o_subtotal" style="" position="replace">
+            <tr t-if="o.type == 'out_invoice' and o.state == 'draft'" class="border-black o_total" style="">
+                <td><strong>Total</strong></td>
+                <td class="text-right">
+                    <span t-field="o.amount_untaxed"/>
+                </td>
+            </tr>
+             <tr t-if="o.type == 'out_invoice' and o.state == 'posted'" class="border-black o_subtotal" style="">
+                <td><strong>sous-total</strong></td>
+                <td class="text-right">
+                    <span t-field="o.amount_untaxed"/>
+                </td>
+            </tr>
+        </tr>
+
+
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <t t-set="address">
+                <address t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' style="padding-top: 25px;"/>
+                <div t-if="o.partner_id.vat" class="mt16">
+                    <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label" id="inv_tax_id_label"/>
+                    <t t-else="">CIN/ CTVA</t>: <span t-field="o.partner_id.vat"/></div>
+            </t>
+        </xpath>
+
+        <xpath expr="//h2" position="replace">
+            <span t-if="o.type == 'out_invoice' and o.state == 'posted'">Facture</span>
+            <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Devis</span>
+            <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Facture Annulé</span>
+            <span t-if="o.type == 'out_refund'">Credit Note</span>
+            <span t-if="o.type == 'in_refund'">Vendor Credit Note</span>
+            <span t-if="o.type == 'in_invoice'">Vendor Bill</span>
+            <span t-if="o.name != '/'" t-field="o.name"/>
+        </xpath>
+
+        <xpath expr="//th[@name='th_taxes']" position="replace">
+            <th name="th_taxes" t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>TVA</span></th>
+        </xpath>
+
+        <xpath expr="//t[@name='account_invoice_line_accountable']" position="replace">
+            <t t-if="not line.display_type" name="account_invoice_line_accountable">
+                <td name="account_invoice_line_name"><span t-field="line.name" t-options="{'widget': 'text'}"/></td>
+                <td class="text-right">
+                    <span t-field="line.quantity"/>
+                    <span t-field="line.product_uom_id"  groups="uom.group_uom"/>
+                </td>
+                <td t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                    <span class="text-nowrap" t-field="line.price_unit"/>
+                </td>
+                <td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                    <span class="text-nowrap" t-field="line.discount"/>
+                </td>
+                <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                    <span t-if="o.type == 'out_invoice' and o.state == 'posted'" class="text-nowrap">19%</span>
+                </td>
+                <td class="text-right o_price_total">
+                    <span class="text-nowrap" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                    <span class="text-nowrap" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                </td>
+            </t>
+        </xpath>
+       <p t-if="o.type in ('out_invoice', 'in_refund')" position="replace">
+       </p>
+    </template>
+</odoo>

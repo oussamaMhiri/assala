@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record model="ir.ui.view" id="client_mh_form_view">
+    <field name="name">client_mh.form</field>
+    <field name="model">mh.client</field>
+    <field name="arch" type="xml">
+      <form string="Client">
+        <sheet>
+          <label for="name" string='Nom et Prénom' class="oe_edit_only"/>
+          <h1>
+              <field name="name" required="1"/>
+          </h1>
+          <group string="">
+            <group>
+              <field name="total"  string='Somme totale (TND)'/>
+            </group>
+            <group>
+              <field name="charge" string="Charge (TND)"/>
+            </group>
+          </group>
+          <group string="">
+            <group>
+            <field name="advance" string="Avance (TND)"/>
+            </group>
+            <group>
+            <field name="rest" string="Reste (TND)"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Charge">
+              <group>
+                <group>
+                    <field name="employee" string="Employés (TND)"/>
+                    <field name="material" string="Matières (TND)"/>
+                </group>
+                <group>
+                    <field name="extra" string="Frais supp"/>
+                </group>
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+
+  <record model="ir.ui.view" id="client_mh_list_view">
+    <field name="name">client_mh.list</field>
+    <field name="model">mh.client</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name" required="1"/>
+        <field name="total" string="Somme totale (TND)"/>
+        <field name="charge" string="Charge (TND)"/>
+        <field name="advance" string="Avance (TND)"/>
+        <field name="rest" string="Reste (TND)"/>
+      </tree>
+    </field>
+  </record>
+
+  <record model="ir.actions.act_window" id="client_list_action">
+    <field name="name">Client</field>
+    <field name="res_model">mh.client</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">suivre votre premier client
+      </p>
+    </field>
+  </record>
+  <!-- top level menu: no parent -->
+<!--  <menuitem id="main_client_fournisseur_mh_menu" name="Client et Fournisseur"/>-->
+
+  <menuitem id="client_mh_menu" name="Paiement"
+            parent="account.menu_finance_receivables" action="client_list_action" sequence="110"/>
+
+
+
+
+  <record model="ir.ui.view" id="supplier_mh_form_view">
+    <field name="name">supplier_mh.form</field>
+    <field name="model">mh.supplier</field>
+    <field name="arch" type="xml">
+      <form string="Fournisseur">
+        <sheet>
+          <label for="name" string='Nom et Prénom' class="oe_edit_only"/>
+          <h1>
+              <field name="name" required="1"/>
+          </h1>
+          <group string="">
+            <group>
+              <field name="total"  string='Somme totale (TND)'/>
+            </group>
+            <group>
+              <field name="total_deadline"  string='Date limite'/>
+              <field name="is_paid" string="Payé"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Echéances">
+              <field name="notebook_ids">
+                <tree editable="bottom" string="Echéances"  default_order="subtotal_deadline desc">
+                  <control>
+                    <create name="add_line_control" string="Ajouter une ligner"/>
+                  </control>
+                  <field name="subtotal" string="Somme (TND)" required="1"/>
+                  <field name="subtotal_deadline" string="Date limite"/>
+                  <field name="is_paid" string="Payé"/>
+                </tree>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+
+  <record model="ir.ui.view" id="supplier_mh_list_view">
+    <field name="name">supplier_mh.list</field>
+    <field name="model">mh.supplier</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name" required="1"/>
+        <field name="total" string="Somme totale (TND)"/>
+        <field name="total_deadline" string="Date limite"/>
+        <field name="is_paid" string="Payé"/>
+      </tree>
+    </field>
+  </record>
+
+  <record model="ir.actions.act_window" id="supplier_list_action">
+    <field name="name">Fournisseur</field>
+    <field name="res_model">mh.supplier</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">suivre votre premier fournisseur
+      </p>
+    </field>
+  </record>
+  <!-- top level menu: no parent -->
+
+  <menuitem id="supplier_mh_menu" name="Paiement"
+            parent="account.menu_finance_payables" action="supplier_list_action" sequence="999"/>
+
+</odoo>
