@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_external_layout_header_report" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[1]" position="replace">
+            <div class="header">
+                <div align="center">
+                    <table class="table" style=";">
+                        <tr>
+                            <td style="width:100%;">
+                                <img src="/reports_extra_module/static/description/header.jpg"
+                                     style="width:100%;height:180px;background-image: url(../reports_extra_module/static/description/header.jpg); margin-top:0"/>
+                                    <span class="company_address" t-field="company.partner_id" style="position: absolute;top: 40px;right: 50px; color:white"
+                                     t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                                    <span t-field="company.phone" style="position: absolute;top: 68px;right: 180px; color:white"/>
+                                    <span t-field="company.email" style="position: absolute;top: 95px;right: 140px; color:white"/>
+                                    <span t-field="company.website" style="position: absolute;top: 125px;right: 130px; color:white"/>
+
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[3]" position="replace">
+            <div class="footer">
+                <div align="center">
+                    <table class="table" style=";">
+                        <tr>
+                            <td style="width:100%;">
+                                <img src="/reports_extra_module/static/description/footer.jpg"
+                                     style="width:100%;height:40px;background-image: url(../reports_extra_module/static/description/footer.jpg); margin-buttom:0"/>
+                                      <span t-field="company.vat" style="position: absolute;bottom: 8px;left: 16px; color:red"/>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
